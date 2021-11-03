@@ -34,19 +34,25 @@ public class Frota extends Controle {
 
             Caminhao caminhao = new Caminhao();
             caminhao.setPluviometros(Controle.contaPluviometro());
+            for(int i = 0; i < caminhao.getPluviometros(); i++) {
+                caminhao.criaPluviometro();
+            }
             caminhao.setTipo(tipo);
             lista.add(caminhao);
             int maior = 0;
             for (Caminhao caminhaoFrota : lista) {
-                if (caminhaoFrota.getPluviometros() > maior) {
-                    maior = caminhaoFrota.getPluviometros();
-                    caminhaoTmp = caminhaoFrota;
+                for(Pluviometro p : caminhaoFrota.getListaPluviometros()) {
+                    if (caminhaoFrota.somaCapacidadePluviometro(caminhaoFrota.getListaPluviometros()) > maior) {
+                        maior = caminhaoFrota.somaCapacidadePluviometro(caminhaoFrota.getListaPluviometros());
+                        caminhaoTmp = caminhaoFrota;
+                    }
                 }
             }
         }
         if(caminhaoTmp != null && caminhaoTmp.getTipo() != null) {
             System.out.println("O tipo do caminhao mais rapido e " + caminhaoTmp.getTipo());
-            System.out.println("A quantidade de pluviometros do caminhao mais rapido e: " + caminhaoTmp.getPluviometros());
+            System.out.println("O caminhao mais rapido tem : " +
+                                caminhaoTmp.somaCapacidadePluviometro(caminhaoTmp.getListaPluviometros()) + " ml de capacidade ");
         }
     }
 
